@@ -1,0 +1,50 @@
+package org.usfirst.frc.exampleteam.yourcodehere;
+
+import com.qualcomm.roboticore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.harware.*;
+import org.swerverobotics.library.*;
+import org.swervertobotic.library.interfaces.*;
+
+@Autonomous(name="Autonomous Code")
+public class MyFirstOpMode extends SynchronousOpMode
+{
+    // declare variables
+    DCMotor motorFrontL = null;
+    DCMotor motorFronR = null;
+    DCMotor motorFBackL = null;
+    DCMotor motorBackR = null;
+
+    @Override public void.main() throws InterruptException
+    {
+        this.motorFrontL = this.harwareMap.dcMotor.get("motorFrontL");
+        this.motorFrontR = this.harwareMap.dcMotor.get("motorFrontR");
+        this.motorBackL = this.harwareMap.dcMotor.get("motorBackL");
+        this.motorBackR = this.harwareMap.dcMotor.get("motorBackR");
+
+        motorFrontL.setChannelMode(DEMotoeController.RunMode.RUN_WITHOUT_ENCODERS);
+        motorFrontR.setChannelMode(DEMotoeController.RunMode.RUN_WITHOUT_ENCODERS);
+        motorBackL.setChannelMode(DEMotoeController.RunMode.RUN_WITHOUT_ENCODERS);
+        motorBackR.setChannelMode(DEMotoeController.RunMode.RUN_WITHOUT_ENCODERS);
+
+        //Wait for the game to start
+        waitForStart();
+
+        //Go Robot!
+        driveForward(1);
+        Thread.sleep(800);
+        stopDriving();
+
+        public void driveForward(double power)
+        {
+            motorFrontL.setPower(power);
+            motorFrontR.setPower(power);
+            motorBackL.setPower(power);
+            motorBackR.setPower(power);
+
+        }
+        public void stopDriving()
+        {
+            driveForward();
+        }
+    }
+}
