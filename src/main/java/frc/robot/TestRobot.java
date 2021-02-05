@@ -44,7 +44,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
  * creating this project, you must also update the build.gradle file in the
  * project.
  */
-public class Robot extends TimedRobot {
+public class TestRobot extends TimedRobot {
   // declare variables
  // private AHRS ahrs;
   private static final String kDefaultAuto = "Default";
@@ -114,24 +114,19 @@ private Command shoot;
     //frc smart dashboard
     SmartDashboard.putData("Auto choices", m_chooser);
     //set motors into robot rio ports
-    motorFrontR = new VictorSPX(0);
-    motorFrontL = new VictorSPX(1);
-    motorBackL = new VictorSPX(2);
+
+    motorFrontR = new VictorSPX(2);
+    motorFrontL = new VictorSPX(0);
+    motorBackL = new VictorSPX(1);
     motorBackR = new VictorSPX(3);
-
     //motorLift = new TalonSRX(4); //not using
-    motorOne = new VictorSP(4); // PWM port number on the roboRIO
-
-    motorTwo = new VictorSPX(5);
-    motorThree = new VictorSPX(6);
+    
   
 
     stick = new Joystick(5); //in reference to FRC driver station - USB order
     System.out.println("joystick plugged into USB slot 5");
     //limitSwitch = new DigitalInput(1);
 
-    _solenoid = new DoubleSolenoid(0, 4, 3); // first number is the PCM ID (usually zero), second number is the solenoid channel
-    compressor = new Compressor(0);
     
     /**
     /* Factory Default Hardware to prevent unexpected behaviour */
