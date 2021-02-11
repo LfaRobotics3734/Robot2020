@@ -44,6 +44,8 @@ public class Encode extends Command{
 				} catch (Exception e) {}
 				double velocity = this.robot._tal.getSelectedSensorVelcoity(0);
 				SmartDashboard.putNumber("vel", velocity);
+				double pos = this.robot._tal.getSelectedSensorPosition(0);
+				SmartDashboard.putNumber("pos", pos);
 			}
 		}
 	}
