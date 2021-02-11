@@ -53,4 +53,6 @@ public class Encode extends Command{
 // That's where I got most of this code from.
 //Make sure to figure out how to use Talon with Phoenix and NOT CANTalon
 //since CANTalon is outdated and I don't think it's supported anymore
-//
+//https://docs.ctre-phoenix.com/en/stable/ch04_DoINeedThis.html
+//https://docs.ctre-phoenix.com/en/stable/ch05_PrepWorkstation.html
+//https://docs.ctre-phoenix.com/en/stable/ch14_MCSensor.html
