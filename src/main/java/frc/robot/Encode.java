@@ -29,7 +29,7 @@ public class Encode extends Command{
 		_tal.set(ControlMode.PercentOutput, 0.25);
 	}
 
-	class PlotThread implement Runnable {
+	class PlotThread implements Runnable {
 		Robot robot;
 
 		public PlotThread(Robot robot){
@@ -37,6 +37,11 @@ public class Encode extends Command{
 		}
 
 		public void run(){
+			int lastRead = 0;
+			int curRead = 0;
+			double circumference;
+			boolean first = true;
+			double distance = 0;
 			while(true){
 				//This should measure and display readings?
 				try{
@@ -46,6 +51,14 @@ public class Encode extends Command{
 				SmartDashboard.putNumber("vel", velocity);
 				double pos = this.robot._tal.getSelectedSensorPosition(0);
 				SmartDashboard.putNumber("pos", pos);
+				
+				curRead = pos;
+				if(!first){
+					double distance += (curRead-lastRead)*circumference/4096;
+				} else {
+					first = false;
+				}
+				lastRead = curRead;
 			}
 		}
 	}
