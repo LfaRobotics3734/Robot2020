@@ -52,9 +52,10 @@ public class Encode extends Command{
 				double pos = this.robot._tal.getSelectedSensorPosition(0);
 				SmartDashboard.putNumber("pos", pos);
 				
+				//tracks distance traveled (probably)
 				curRead = pos;
 				if(!first){
-					double distance += (curRead-lastRead)*circumference/4096;
+					distance += (curRead-lastRead)*circumference/4096;
 				} else {
 					first = false;
 				}
