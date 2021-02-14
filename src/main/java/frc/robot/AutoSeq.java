@@ -19,7 +19,7 @@ public class AutoSeq extends CommandGroup {
   public AutoSeq(VictorSPX motorFrontL, VictorSPX motorFrontR, VictorSPX motorBackL, VictorSPX motorBackR, VictorSPX motorElev, VictorSP motorShoot) {
     addSequential(new MoveBackwardTime(1, .5, motorFrontL, motorFrontR, motorBackL, motorBackR));
     //addSequential(new MoveForwardTime(4, .5, motorFrontL, motorFrontR, motorBackL, motorBackR));
-    addSequential(new Shoot(3, .8, .6, motorShoot, motorElev));
+    //addSequential(new Shoot(3, .8, .6, motorShoot, motorElev));
     addSequential(new MoveBackwardTime(3, .5, motorFrontL, motorFrontR, motorBackL, motorBackR));
     
     // Add Commands here:
