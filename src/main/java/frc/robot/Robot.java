@@ -252,7 +252,8 @@ public class Robot extends TimedRobot {
    * switch structure below with additional strings. If using the SendableChooser
    * make sure to add them to the chooser code above as well.
    */
-  /* @Override
+
+  @Override
   public void autonomousInit() {
     //Command auto = new MoveBackwardTime(5, .5, motorFrontL, motorFrontR, motorBackL, motorBackR);
     //auto.start();
@@ -268,7 +269,7 @@ public class Robot extends TimedRobot {
     //m_autoSelected = m_chooser.getSelected();
     //m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
     //System.out.println("Auto selected: " + m_autoSelected)
-  } */
+  }
 
   /**
    * This function is called periodically during autonomous.
@@ -297,9 +298,6 @@ public class Robot extends TimedRobot {
   
   public void teleopPeriodic() {
     /*
-    
-    SOMETINGG WONG
-
     if(stick.getRawButton(4)){
       System.out.println("Y Pressed!");
       shoot.start();
