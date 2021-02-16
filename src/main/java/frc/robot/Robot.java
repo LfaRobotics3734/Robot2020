@@ -44,6 +44,8 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
  * creating this project, you must also update the build.gradle file in the
  * project.
  */
+
+ //change back to robot
 public class Robot extends TimedRobot {
   // declare variables
  // private AHRS ahrs;
@@ -96,10 +98,12 @@ public class Robot extends TimedRobot {
  */
 
 
-private final boolean kDiscontinuityPresent = true;
-private final int kBookEnd_0 = 910;		/* 80 deg */
-private final int kBookEnd_1 = 1137;	/* 100 deg */
-private Command shoot;
+  private final boolean kDiscontinuityPresent = true;
+  private final int kBookEnd_0 = 910;		/* 80 deg */
+  private final int kBookEnd_1 = 1137;	/* 100 deg */
+  private Command shoot;
+  
+  private double shooterSpeed = 0.80;
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -126,8 +130,8 @@ private Command shoot;
     motorThree = new VictorSPX(6);
   
 
-    stick = new Joystick(5); //in reference to FRC driver station - USB order
-    System.out.println("joystick plugged into USB slot 5");
+    stick = new Joystick(1); //in reference to FRC driver station - USB order
+    System.out.println("joystick plugged into USB slot 1");
     //limitSwitch = new DigitalInput(1);
 
     _solenoid = new DoubleSolenoid(0, 4, 3); // first number is the PCM ID (usually zero), second number is the solenoid channel
@@ -292,9 +296,14 @@ private Command shoot;
   @Override
   
   public void teleopPeriodic() {
+    /*
+    
+    SOMETINGG WONG
+
     if(stick.getRawButton(4)){
+      System.out.println("Y Pressed!");
       shoot.start();
-    }
+    }*/
 
     //Pneumatics
     /** When closed loop control is enabled the PCM will automatically turn the compressor on
@@ -338,9 +347,11 @@ private Command shoot;
     if(stick.getRawButton(3)){
       motorOne.set(0.8);
     } */
+    //-0.80 -0.65
     if (stick.getRawButton(6)) {
-      motorOne.set(-0.75);
+      motorOne.set(this.shooterSpeed);
     }
+
     //botton X controls shooting motor backward
     if(stick.getRawButton(3)){
       motorOne.set(.6);
@@ -368,6 +379,23 @@ private Command shoot;
     }
      else {
       motorThree.set(ControlMode.PercentOutput, 0);
+    }
+
+    if(stick.getPOV() == 0){
+      setShooterSpeed(0.65);
+      motorOne.set(0);
+    }
+    if(stick.getPOV() == 90){
+      setShooterSpeed(0.63);
+      motorOne.set(0);
+    }
+    if(stick.getPOV() == 180){
+      setShooterSpeed(0.705);
+      motorOne.set(0);
+    }
+    if(stick.getPOV() == 270){
+      setShooterSpeed(0.805);
+      motorOne.set(0);
     }
     //SmartDashboard.putBoolean("switch", limitSwitch.get());
 
@@ -511,5 +539,9 @@ private Command shoot;
     } else {
       return inputSpeed;
     }
+  }
+
+  public void setShooterSpeed(double speed){
+    this.shooterSpeed = speed;
   }
 }

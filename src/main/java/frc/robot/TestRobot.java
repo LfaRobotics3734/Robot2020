@@ -289,6 +289,7 @@ private Command shoot;
   public void teleopPeriodic() {
     if(stick.getRawButton(4)){
       shoot.start();
+      System.out.println("HELLO");
     }
 
     //Pneumatics
