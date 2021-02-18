@@ -20,6 +20,7 @@ public class MasterEncode extends Robot {
   public double curRead;
   public boolean first = true;
   public double dist;
+  public double distToTravel;
 
   @Override
   public void teleopInit() {
@@ -65,6 +66,10 @@ public class MasterEncode extends Robot {
       }
       lastRead = curRead;
       System.out.println("Dist Traveled: " + dist);
+    
+    if(!dist > distToTravel-(0.1*circumference) && !dist < distToTravel+(0.1*circumference)){
+      motorOne.set(.2);
+    }
     //}
   }
 }
