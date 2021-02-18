@@ -1,74 +1,64 @@
 package frc.robot;
 
-/*import com.ctre.CANTalon;
-import com.ctre.CANTalon.FeedbackDevice;
-import com.ctre.CANTalon.StatusFrameRate;
-import com.ctre.CANTalon.TalonControlMode;*/
-import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.networktables.NetworkTable;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
+import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.can.*;
+import edu.wpi.first.wpilibj.*;
 
-public class Encode extends Command{
-	//This is assuming that the ID of the talon is 0
-	TalonSRX _tal = new TalonSRX(0);
-	PlotThread _plotThread;
+public class Encode extends Robot {
+  TalonSRX _talon = new TalonSRX(0); /* make a Talon */
+  Joystick _joystick = new Joystick(0); /* make a joystick */
+  Faults _faults = new Faults(); /* temp to fill with latest faults */
 
-	public void teleopInit(){
-		//tracks every 1ms, may want to lower this later to not use as much bandwidth
-		_tal.setStatusFramPeriod(StatusFrameEnhanced.Status_2_Feedback0, 1);
-		_tal.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncdoer_Relative);
-		_plotThread = new PlotThread(this);
-		new Thread(_plotThread).start();
-	}
+  public double circumference;
+  public double lastRead;
+  public double curRead;
+  public boolean first = true;
+  public double dist;
 
-	public void teleopPeriodic(){
-		_tal.set(ControlMode.PercentOutput, 0.25);
-	}
+  @Override
+  public void teleopInit() {
+    /* factory default values */
+    _talon.configFactoryDefault();
 
-	class PlotThread implements Runnable {
-		Robot robot;
+    /*
+     * choose whatever you want so "positive" values moves mechanism forward,
+     * upwards, outward, etc.
+     *
+     * Note that you can set this to whatever you want, but this will not fix motor
+     * output direction vs sensor direction.
+     */
+    _talon.setInverted(false);
 
-		public PlotThread(Robot robot){
-			this.robot = robot;
-		}
+    /*
+     * flip value so that motor output and sensor velocity are the same polarity. Do
+     * this before closed-looping
+     */
+    _talon.setSensorPhase(false); // <<<<<< Adjust this
+  }
 
-		public void run(){
-			int lastRead = 0;
-			int curRead = 0;
-			double circumference;
-			boolean first = true;
-			double distance = 0;
-			while(true){
-				//This should measure and display readings?
-				try{
-					Thread.sleep(1);
-				} catch (Exception e) {}
-				double velocity = this.robot._tal.getSelectedSensorVelcoity(0);
-				SmartDashboard.putNumber("vel", velocity);
-				double pos = this.robot._tal.getSelectedSensorPosition(0);
-				SmartDashboard.putNumber("pos", pos);
-				
-				//tracks distance traveled (probably)
-				curRead = pos;
-				if(!first){
-					distance += (curRead-lastRead)*circumference/4096;
-				} else {
-					first = false;
-				}
-				lastRead = curRead;
-			}
-		}
-	}
+  @Override
+  public void teleopPeriodic() {
+    double xSpeed = _joystick.getRawAxis(1) * -1; // make forward stick positive
+
+    /* update motor controller */
+    _talon.set(ControlMode.PercentOutput, xSpeed);
+    /* check our live faults */
+    _talon.getFaults(_faults);
+    /* hold down btn1 to print stick values */
+    //if (_joystick.getRawButton(1)) {
+      /*System.out.println("Sensor Vel:" + _talon.getSelectedSensorVelocity());
+      System.out.println("Sensor Pos:" + _talon.getSelectedSensorPosition());
+      System.out.println("Out %" + _talon.getMotorOutputPercent());
+      System.out.println("Out Of Phase:" + _faults.SensorOutOfPhase);*/
+      curRead = _talon.getSelectedSensorPosition();
+      if(!first){
+        double curDist = (lastRead-curRead) * circumference/4096;
+      dist += curDist;
+      } else {
+        first = false;
+      }
+      lastRead = curRead;
+      System.out.println("Dist Traveled: " + dist);
+    //}
+  }
 }
-
-//https://github.com/CrossTheRoadElec/Phoenix-Examples-Languages/blob/master/Java%20General/MagEncoder_Relative/src/main/java/frc/robot/Robot.java
-// That's where I got most of this code from.
-//Make sure to figure out how to use Talon with Phoenix and NOT CANTalon
-//since CANTalon is outdated and I don't think it's supported anymore
-//https://docs.ctre-phoenix.com/en/stable/ch04_DoINeedThis.html
-//https://docs.ctre-phoenix.com/en/stable/ch05_PrepWorkstation.html
-//https://docs.ctre-phoenix.com/en/stable/ch14_MCSensor.html
