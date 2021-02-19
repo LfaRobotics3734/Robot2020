@@ -12,8 +12,7 @@ public class MasterEncode extends Robot {
   TalonSRX _talon = new TalonSRX(0); /* make a Talon */
   Joystick _joystick = new Joystick(0); /* make a joystick */
   Faults _faults = new Faults(); /* temp to fill with latest faults */
-  private VictorSP motorOne;
-  private VictorSPX motorTwo, motorThree;
+  private TalonSR motorOne;
 
   public double circumference;
   public double lastRead;
@@ -67,7 +66,7 @@ public class MasterEncode extends Robot {
       lastRead = curRead;
       System.out.println("Dist Traveled: " + dist);
     
-    if(!dist > distToTravel-(0.1*circumference) && !dist < distToTravel+(0.1*circumference)){
+    if(!dist > distToTravel-(0.05*circumference) && !dist < distToTravel+(0.05*circumference)){
       motorOne.set(.2);
     }
     //}
