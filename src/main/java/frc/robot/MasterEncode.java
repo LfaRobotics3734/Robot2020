@@ -66,8 +66,11 @@ public class MasterEncode extends Robot {
       lastRead = curRead;
       System.out.println("Dist Traveled: " + dist);
     
-    if(!dist > distToTravel-(0.05*circumference) && !dist < distToTravel+(0.05*circumference)){
-      motorOne.set(.2);
+    if(!dist > distToTravel-(0.05*circumference)){
+      motorOne.set(0.2);
+    }
+    else if( !dist < distToTravel+(0.05*circumference)){
+      motorOne.set(-0.2);
     }
     //}
   }
