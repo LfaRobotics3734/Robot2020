@@ -72,6 +72,9 @@ public class MasterEncode extends Robot {
     else if( !dist < distToTravel+(0.05*circumference)){
       motorOne.set(-0.2);
     }
+    else{
+      motorOne.set(0.0);
+    }
     //}
   }
 }
